@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getTasksPaginated, createTask, updateTask, deleteTask } from '../services/api';
 
@@ -18,11 +18,7 @@ function Tasks() {
     const navigate = useNavigate();
     const userName = localStorage.getItem('userName');
 
-    useEffect(() => {
-        loadTasks(currentPage);
-    }, [currentPage]);
-
-    const loadTasks = async (page) => {
+    const loadTasks = useCallback(async (page) => {
         try {
             setLoading(true);
             const response = await getTasksPaginated(page, pageSize);
@@ -39,7 +35,11 @@ function Tasks() {
         } finally {
             setLoading(false);
         }
-    };
+    }, [navigate]);
+
+    useEffect(() => {
+        loadTasks(currentPage);
+    }, [currentPage, loadTasks]);
 
     const handleAddTask = async (e) => {
         e.preventDefault();
