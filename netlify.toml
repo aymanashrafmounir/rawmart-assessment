@@ -5,8 +5,7 @@
 
 [build.environment]
   NODE_VERSION = "18"
-  # Set your backend URL here after deploying to Render
-  # REACT_APP_API_URL = "https://task-backend.onrender.com/api"
+  # REACT_APP_API_URL = "https://rawmart-assessment.onrender.com"
 
 [[redirects]]
   from = "/*"

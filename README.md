@@ -10,8 +10,28 @@ A full-stack Task Management Application built with **Spring Boot** (Backend) an
 
 ---
 
-## 📖 Table of Contents
+## 🌐 Live Demo
 
+> [!WARNING]
+> **Free Tier Notice:** The application is deployed using free tier services. The server might be sleeping due to inactivity. Please allow 30-60 seconds for the initial request to wake up the services.
+
+| Service | URL | Provider |
+|---------|-----|----------|
+| �️ **Frontend** | [rawmart.netlify.app](https://rawmart.netlify.app/) | Netlify |
+| ⚙️ **Backend API** | [rawmart-assessment.onrender.com](https://rawmart-assessment.onrender.com) | Render (Docker) |
+| 🗄️ **Database** | MySQL (Managed) | [Aiven](https://console.aiven.io/) |
+
+### Try It Out
+
+1. Visit [https://rawmart.netlify.app/](https://rawmart.netlify.app/)
+2. Register a new account or login
+3. Start managing your tasks!
+
+---
+
+## �📖 Table of Contents
+
+- [Live Demo](#-live-demo)
 - [Features](#-features)
 - [Tech Stack](#-tech-stack)
 - [Project Structure](#-project-structure)
@@ -20,6 +40,7 @@ A full-stack Task Management Application built with **Spring Boot** (Backend) an
 - [API Endpoints](#-api-endpoints)
 - [Screenshots](#-screenshots)
 - [Assumptions](#-assumptions)
+- [Deployment Architecture](#️-deployment-architecture)
 
 ---
 
@@ -472,6 +493,49 @@ jwt.expiration=86400000
 **Ayman Ashraf Mounir**
 
 - GitHub: [@aymanashrafmounir](https://github.com/aymanashrafmounir)
+
+---
+
+## ☁️ Deployment Architecture
+
+The application is deployed across multiple cloud platforms for production use:
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                        PRODUCTION SETUP                         │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│   ┌──────────────┐    ┌──────────────┐    ┌──────────────┐    │
+│   │   Netlify    │───▶│    Render    │───▶│    Aiven     │    │
+│   │  (Frontend)  │    │  (Backend)   │    │   (MySQL)    │    │
+│   └──────────────┘    └──────────────┘    └──────────────┘    │
+│         │                    │                   │             │
+│    React App           Spring Boot         MySQL 8.0          │
+│    (Static)            (Docker)            (Managed)          │
+│                                                                 │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+### Platform Details
+
+| Platform | Service | Configuration |
+|----------|---------|---------------|
+| **Netlify** | Frontend Hosting | Auto-deploy from GitHub, `_redirects` for SPA routing |
+| **Render** | Backend API | Docker deployment, environment variables for DB connection |
+| **Aiven** | MySQL Database | Managed MySQL 8.0, SSL connection, automated backups |
+
+### Deployment Files
+
+| File | Purpose |
+|------|---------|
+| `netlify.toml` | Netlify build configuration |
+| `frontend/public/_redirects` | SPA routing rules for Netlify |
+| `backend/Dockerfile` | Docker image for backend |
+| `render.yaml` | Render deployment configuration |
+| `application-prod.properties` | Production Spring Boot config |
+
+> [!NOTE]
+> The backend uses Spring profiles. Production deployment uses `application-prod.properties` with environment variables for sensitive data like database credentials and JWT secrets.
 
 ---
 
