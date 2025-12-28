@@ -1,0 +1,23 @@
+# Render Blueprint
+# This file auto-configures your Render deployment
+# Docs: https://render.com/docs/blueprint-spec
+
+services:
+  # Backend API (Spring Boot)
+  - type: web
+    name: task-backend
+    runtime: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    region: frankfurt  # Closest to Egypt
+    plan: free
+    healthCheckPath: /api/auth/register
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: prod
+      - key: DB_USERNAME
+        value: avnadmin
+      - key: DB_PASSWORD
+        sync: false  # Will prompt for value on deploy
+      - key: JWT_SECRET
+        generateValue: true

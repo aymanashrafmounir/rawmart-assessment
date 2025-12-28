@@ -10,4 +10,9 @@ FROM eclipse-temurin:17-jre-alpine
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
 EXPOSE 8080
+
+# Use prod profile by default (can be overridden by env var)
+ENV SPRING_PROFILES_ACTIVE=prod
+
 ENTRYPOINT ["java", "-jar", "app.jar"]
+
